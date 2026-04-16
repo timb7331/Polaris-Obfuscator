@@ -6,7 +6,7 @@
 __attribute((__annotate__(("flatten,boguscfg,substitution"))))
 void encoder(char *data, char *enc) {
 #ifdef BACKEND_OBFU 
-	asm("backend-obfu");
+	asm("hotshot");
 #endif
 	int len = strlen(data);
 	for(int i = 0; i < len; i++) {

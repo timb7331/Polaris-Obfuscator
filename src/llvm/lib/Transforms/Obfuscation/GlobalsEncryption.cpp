@@ -24,7 +24,7 @@ Function *GlobalsEncryption::buildDecryptFunction(Module &M) {
   FunctionType *FT =
       FunctionType::get(Type::getVoidTy(M.getContext()), Params, false);
   Function *F = Function::Create(FT, GlobalValue::PrivateLinkage,
-                                 Twine("__obfu_globalenc_dec"), M);
+                                 Twine("__hotshot_globalenc_dec"), M);
   BasicBlock *Entry = BasicBlock::Create(M.getContext(), "entry", F);
   BasicBlock *Cmp = BasicBlock::Create(M.getContext(), "cmp", F);
   BasicBlock *Body = BasicBlock::Create(M.getContext(), "body", F);
@@ -60,8 +60,8 @@ Function *GlobalsEncryption::buildDecryptFunction(Module &M) {
   IRB.CreateRetVoid();
   return F;
 }
-void __obfu_globalenc_enc(uint8_t *Data, uint8_t *Key, int64_t Len,
-                          int64_t KeyLen) {
+void __hotshot_globalenc_enc(uint8_t *Data, uint8_t *Key, int64_t Len,
+                             int64_t KeyLen) {
   for (int64_t i = 0; i < Len; i++) {
     Data[i] ^= Key[i % KeyLen];
   }
@@ -116,7 +116,7 @@ void GlobalsEncryption::process(Module &M) {
     if (Ty->isIntegerTy()) {
       ConstantInt *CI = (ConstantInt *)GV->getInitializer();
       uint64_t V = CI->getZExtValue();
-      __obfu_globalenc_enc((uint8_t *)&V, (uint8_t *)&K, Size, KEY_LEN);
+      __hotshot_globalenc_enc((uint8_t *)&V, (uint8_t *)&K, Size, KEY_LEN);
       GV->setInitializer(ConstantInt::get(Ty, V));
     } else if (Ty->isArrayTy()) {
       ArrayType *AT = (ArrayType *)Ty;
@@ -128,7 +128,7 @@ void GlobalsEncryption::process(Module &M) {
       const char *Data = (const char *)CA->getRawDataValues().data();
       char *Tmp = new char[Size];
       memcpy(Tmp, Data, Size);
-      __obfu_globalenc_enc((uint8_t *)Tmp, (uint8_t *)&K, Size, KEY_LEN);
+      __hotshot_globalenc_enc((uint8_t *)Tmp, (uint8_t *)&K, Size, KEY_LEN);
       GV->setInitializer(ConstantDataArray::getRaw(StringRef((char *)Tmp, Size),
                                                    CA->getNumElements(),
                                                    CA->getElementType()));

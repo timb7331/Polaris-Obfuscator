@@ -145,13 +145,13 @@ For **IR-based obfuscation**, you can use the `annotate` to mark a function and 
 - mergefunction for functions merging
 - linearmba for linear mba obfuscation
 
-For **backend obfuscation**, you need to insert an `asm` statement into the obfuscated function, and its label must be `backend-obfu`. The backend will automatically identify functions with this statement, and then perform backend obfuscation.
+For **backend obfuscation**, you need to insert an `asm` statement into the obfuscated function, and its label must be `hotshot`. The backend will automatically identify functions with this statement, and then perform backend obfuscation.
 
 An example of a marking function is shown in the following code, where the target function is obfuscated with indirect call ,indirect branch,alias access and backend obfuscation.
 
 ```c
 int __attribute((__annotate__(("indirectcall,indirectbr,aliasaccess")))) main() {
-    asm("backend-obfu");
+    asm("hotshot");
     printf("Hello World!\n");
     return 0;
 }
@@ -178,7 +178,7 @@ public:
 	__attribute((__annotate__(("flatten,boguscfg,substitution"))))
     void encrypt(uint32_t& v0, uint32_t& v1) const {							// function to be obfuscated
     #ifdef BACKEND_OBFU
-    	asm("backend-obfu");
+    	asm("hotshot");
 	#endif 
         uint32_t sum = 0;
         uint32_t delta = 0x9e3779b9;

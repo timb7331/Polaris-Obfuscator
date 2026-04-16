@@ -31,7 +31,7 @@ Function *AliasAccess::buildGetterFunction(Module &M, StructType *ST,
   FunctionType *FT = FunctionType::get(
       Type::getInt8Ty(M.getContext())->getPointerTo(), Params, false);
   Function *F = Function::Create(FT, GlobalValue::PrivateLinkage,
-                                 Twine("__obfu_aliasaccess_getter"), M);
+                                 Twine("__hotshot_aliasaccess_getter"), M);
   BasicBlock *Entry = BasicBlock::Create(M.getContext(), "entry", F);
   Function::arg_iterator Iter = F->arg_begin();
   Value *Ptr = Iter;

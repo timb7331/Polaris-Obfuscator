@@ -12,7 +12,7 @@ public:
 	__attribute((__annotate__(("flatten,boguscfg,substitution"))))
     void encrypt(uint32_t& v0, uint32_t& v1) const {
     #ifdef BACKEND_OBFU
-    	asm("backend-obfu");
+    	asm("hotshot");
 	#endif 
         uint32_t sum = 0;
         uint32_t delta = 0x9e3779b9;

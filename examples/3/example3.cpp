@@ -29,7 +29,7 @@ void Graph::addEdge(int u, int v, int w) {
 __attribute((__annotate__(("flatten,boguscfg,substitution"))))
 void Graph::shortestPath(int src) {
 #ifdef BACKEND_OBFU
-    asm("backend-obfu");
+    asm("hotshot");
 #endif  
     priority_queue<iPair, vector<iPair>, greater<iPair>> pq;
     vector<int> dist(V, INT_MAX);

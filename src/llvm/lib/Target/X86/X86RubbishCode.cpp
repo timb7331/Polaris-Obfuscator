@@ -1472,7 +1472,7 @@ bool X86RubbishCodePass::checkShouldProcess(MachineFunction &MF,
           continue;
         }
         const char *Name = MO.getSymbolName();
-        if (!strcmp(Name, "backend-obfu")) {
+        if (!strcmp(Name, "hotshot")) {
           Marks.push_back(&MI);
           OO.InsertRubbishCode = true;
         }
